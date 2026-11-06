@@ -1,0 +1,219 @@
+body {
+  overflow-x: hidden;
+}
+
+img,
+video,
+canvas {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+.lil-gui {
+  --background-color: #ffffff00;
+  margin: 10px 0;
+}
+
+.lil-controller {
+  border-top: 1px solid #ffffff00 !important;
+}
+
+.lil-children {
+  width: 500px;
+}
+
+.suffix::before {
+  content: "km/h";
+  position: absolute;
+  right: -24px;
+  color: #000;
+  font-size: 17px;
+  pointer-events: none;
+}
+
+.lil-slider {
+  background-color: #ffffff00 !important;
+  padding: 0 20 10px 20px;
+  overflow: visible !important;
+}
+
+.lil-slider::before {
+  content: "";
+  border-top: 1px solid #000 !important;
+  display: block;
+  transform: translateY(14px);
+}
+
+.lil-fill {
+  border-right: var(--slider-knob-width) solid #00000000 !important;
+  position: relative;
+}
+
+.lil-fill::before {
+  content: "";
+  position: absolute;
+  right: 0;
+  transform: translate(55%, 30%);
+  background-color: #fff;
+  width: 12px;
+  height: 12px;
+  border-radius: 30px;
+  border: 2px solid #000;
+  pointer-events: none;
+}
+
+.lil-gui .lil-children:empty:before {
+  display: none;
+}
+
+.lil-widget button {
+  width: 48px;
+  height: 48px !important;
+  border-radius: 30px !important;
+  border: 3px solid #000;
+  position: relative;
+}
+
+.lil-widget button::after {
+  content: "";
+  position: absolute;
+  top: 17%;
+  left: 17%;
+  background-color: #fff;
+  width: 24px;
+  height: 24px;
+  border-radius: 30px;
+  border: 2px solid #000;
+  pointer-events: none;
+}
+
+.lil-name {
+  display: none;
+}
+
+.lil-title {
+  display: none;
+}
+
+/* colros */
+.redColor {
+  background-color: #d52b1e !important;
+}
+
+.yellowColor {
+  background-color: #fed100 !important;
+}
+.whiteColor {
+  background-color: #ffffff !important;
+}
+.greenColor {
+  background-color: #00b050 !important;
+}
+
+.blueColor {
+  background-color: #0066cc !important;
+}
+
+/* desktop */
+
+.lil-widget > input {
+  background-color: unset;
+  color: #000 !important;
+  font-size: 17px !important;
+  width: 35px !important;
+  position: relative;
+}
+
+.lil-widget > input:focus {
+  background-color: unset !important;
+}
+
+@media (min-width: 1000px) {
+  body
+    > div.lil-gui.lil-root.lil-allow-touch-styles.lil-auto-place.autoPlace
+    > div
+    > div.lil-gui {
+    position: absolute;
+    bottom: 0;
+    transform: translate(-23vw, 27vh);
+  }
+
+  body > div.lil-gui.lil-root.lil-allow-touch-styles.lil-auto-place.autoPlace {
+    top: 20% !important;
+  }
+
+  body
+    > div.lil-gui.lil-root.lil-allow-touch-styles.lil-auto-place.autoPlace
+    > div
+    > div {
+    margin-top: 28px;
+  }
+
+  body
+    > div.lil-gui.lil-root.lil-allow-touch-styles.lil-auto-place.autoPlace
+    > div
+    > div {
+    margin-top: 28px;
+  }
+
+  /* pseudo elems text */
+
+  .redColor::before,
+  .yellowColor::before,
+  .whiteColor::before,
+  .greenColor::before,
+  .blueColor::before {
+    color: #000;
+    width: 150px;
+    position: absolute;
+    top: 35%;
+    left: 50px;
+    font-size: 17px;
+    text-align: left;
+  }
+
+  .redColor::before {
+    content: "Soft Tyre";
+  }
+  .yellowColor::before {
+    content: "Medium Tyre";
+  }
+  .whiteColor::before {
+    content: "Hard Tyre";
+  }
+  .greenColor::before {
+    content: "Intermediate Tyre";
+  }
+
+  .blueColor::before {
+    content: "Wet Tyre";
+  }
+}
+
+@media (max-width: 1000px) {
+  .lil-widget button {
+    margin-top: 5%;
+  }
+
+  .mobileNav {
+    background-color: #252525;
+    height: 104px;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    z-index: 5;
+    padding: 0;
+  }
+
+  .lil-children {
+    /* position: absolute; */
+  }
+}
