@@ -1,3 +1,11 @@
+/* --- DejaVu Sans --- */
+@font-face {
+  font-family: "DejaVu Sans";
+  src: url("../public/font/DejaVuSans.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
 body {
   overflow-x: hidden;
 }
@@ -27,6 +35,7 @@ canvas {
 
 .lil-children {
   width: 500px;
+  display: none; /* loading manager spec */
 }
 
 .suffix::before {
@@ -84,11 +93,11 @@ canvas {
 .lil-widget button::after {
   content: "";
   position: absolute;
-  top: 17%;
-  left: 17%;
-  background-color: #fff;
-  width: 24px;
-  height: 24px;
+  top: 21%;
+  left: 21%;
+  background-color: #2b2b2b;
+  width: 20px;
+  height: 20px;
   border-radius: 30px;
   border: 2px solid #000;
   pointer-events: none;
@@ -195,11 +204,43 @@ canvas {
   .blueColor::before {
     content: "Wet Tyre";
   }
+
+  .text1,
+  .text2,
+  .text3 {
+    z-index: 9999;
+    position: absolute;
+    border-bottom: 1px solid #000;
+    font-family: "DejaVu Sans";
+    padding-bottom: 4px;
+    padding-right: 80px;
+  }
+
+  .text1 {
+    left: 5%;
+    top: 45%;
+  }
+
+  .text2 {
+    left: 10%;
+    top: 60%;
+    width: 420px;
+  }
+
+  .text3 {
+    left: 5%;
+    top: 80%;
+    width: 420px;
+  }
 }
 
 @media (max-width: 1000px) {
-  .lil-widget button {
-    margin-top: 5%;
+  .lil-gui {
+    width: 85% !important;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    min-width: 420px;
   }
 
   .mobileNav {
@@ -211,9 +252,125 @@ canvas {
     width: 100%;
     z-index: 5;
     padding: 0;
+    min-width: 480px;
   }
 
   .lil-children {
-    /* position: absolute; */
+    display: flex !important;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    overflow-x: visible !important;
+    overflow-y: visible !important;
+  }
+
+  /* slider */
+  body
+    > div.lil-gui.lil-root.lil-allow-touch-styles.lil-auto-place.autoPlace
+    > div
+    > div:nth-child(1)
+    > div
+    > div
+    > div.lil-widget {
+    width: 300px;
+    position: absolute;
+    right: 0;
+    transform: translate(120px, -100px);
+  }
+
+  .suffix::before {
+    content: "km/h";
+    position: absolute;
+    right: -145px;
+    bottom: 95px;
+    color: #000;
+    font-size: 16px;
+    pointer-events: none;
+  }
+
+  .speedometer {
+    content: "";
+    position: absolute;
+    top: 17%;
+    right: 5vw;
+    background-color: #000;
+    width: 44px;
+    height: 44px;
+    border-radius: 30px;
+    border: 3px solid #fff;
+    pointer-events: none;
+    transform: translate(0px, 20px);
+  }
+  .rpm {
+    display: block;
+    left: 40px;
+    bottom: 130px !important;
+  }
+}
+
+/* loading */
+
+.load {
+  z-index: 999;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.loading {
+  font-size: 28px;
+  font-family: "DejaVu Sans";
+  transform: translateX(15px);
+}
+
+.rpm {
+  z-index: 999;
+  position: absolute;
+  bottom: 20px;
+  right: 36%;
+  font-size: 17px;
+  font-family: "DejaVu Sans";
+}
+
+/* HTML: <div class="loader"></div> */
+.loader {
+  width: 50px;
+  aspect-ratio: 1;
+  color: #000000;
+  border-radius: 50%;
+  display: grid;
+  background:
+    conic-gradient(
+        from 90deg at 4px 4px,
+        #0000 90deg,
+        currentColor 0
+      ) -4px -4px /
+      calc(50% + 2px) calc(50% + 2px),
+    radial-gradient(
+        farthest-side,
+        currentColor 6px,
+        #0000 7px calc(100% - 6px),
+        currentColor calc(100% - 5px)
+      )
+      no-repeat;
+  animation: l10 2s infinite linear;
+  position: relative;
+}
+.loader:before {
+  content: "";
+  border-radius: inherit;
+  background: inherit;
+  transform: rotate(45deg);
+}
+@keyframes l10 {
+  to {
+    transform: rotate(0.5turn);
   }
 }

@@ -10,21 +10,28 @@
   <body>
     <div id="app"></div>
     <script type="module" src="/src/main.js"></script>
-    <div class="text1">
-      <span>no heating up required, max grip on first lap</span>
+
+    <!-- loading screen -->
+    <div class="load">
+      <div class="loader"></div>
+      <span class="loading">Loading...</span>
     </div>
-    <div class="text2">
-      <span
-        >chemically designed to “melt” into track, giving you more grip &
-        allowing you to take corners faster</span
-      >
+
+    <span class="rpm" style="display: none"></span>
+
+    <div class="text1" style="display: none">
+      <span></span>
     </div>
-    <div class="text3">
-      <span
-        >Least durable tyre made for short stints and fast qualifying laps.
-        However, this makes it prone to degradation & “graining”</span
-      >
+    <div class="text2" style="display: none">
+      <span></span>
     </div>
-    <nav class="mobileNav"></nav>
+    <div class="text3" style="display: none">
+      <span></span>
+    </div>
+    <nav class="mobileNav">
+      <div class="speedometer">
+        <img src="" alt="" />
+      </div>
+    </nav>
   </body>
 </html>

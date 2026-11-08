@@ -7,6 +7,56 @@ import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { ThreeMFLoader } from "three/examples/jsm/Addons.js";
 import GUI from "lil-gui";
 
+// data
+const data = {
+  soft: [
+    "No heating up required, max grip on first lap",
+    "Chemically designed to “melt” into track, giving you more grip & allowing you to take corners faster",
+    "Least durable tyre made for short stints and fast qualifying laps. However, this makes it prone to degradation & “graining”",
+  ],
+  medium: [
+    "Needs 1 to 2 prep laps to reach optimal temperature window",
+    "Provides 85%-90% of a soft tyre's grip, costing the driver 0.5s to 0.7s on avg in lap time",
+    "less of a melting effect than on the soft compound, more resistant to heat",
+  ],
+  hard: [
+    "Longest warmup time, 2-3 prep laps required to get it into the optimal thermal range, longest of all compounds",
+    "Slowest cornering speed of all, with the lack of grip making you lose around 0.5s to 0.8s compared to the mediums.",
+    "Highest longevity of the range, used strategically for longer stints.",
+  ],
+  inter: [
+    "Designed for wet conditions, the 'intermediate' phase between having standing water on track and dry conditions",
+    "Uses outward facing groves to clear out water at 30L per second at top speed to prevent aquaplaning",
+    "Overheats easily with no water to cool it down. Needs to come off in dry conditions.",
+  ],
+  wet: [
+    "Made exclusively for heavy rain. Also referred to as x-wet. ",
+    "Made of extra-soft material that can heat up in standing water, features a distinct tread pattern that clears around 85L water per second at top speed",
+    "Unusable in conditions dryer than standing water, as the profile will fall apart, leaving you with a rapidly degrading, hot tyre and no grip",
+  ],
+};
+
+const spans = document.querySelectorAll(
+  ".text1 span, .text2 span, .text3 span",
+);
+
+const manager = new THREE.LoadingManager();
+manager.onLoad = () => {
+  console.log("Finished!");
+  speedElem.domElement.classList.remove("suffix");
+  document
+    .querySelectorAll(".lil-children")
+    .forEach((el) => (el.style.display = "block"));
+
+  const spans = document
+    .querySelectorAll(".text1, .text2, .text3")
+    .forEach((e) => {
+      e.style.display = "block";
+    });
+  document.querySelector(".load").style.display = "none";
+  document.querySelector(".rpm").style.display = "block";
+};
+
 // setup
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(
@@ -15,7 +65,7 @@ const camera = new THREE.PerspectiveCamera(
   0.1,
   1000,
 );
-const loader = new GLTFLoader();
+const loader = new GLTFLoader(manager);
 const HDRIloader = new EXRLoader();
 const renderer = new THREE.WebGLRenderer();
 const orbitControls = new OrbitControls(camera, renderer.domElement);
@@ -23,8 +73,24 @@ const orbitControls = new OrbitControls(camera, renderer.domElement);
 let gltf;
 let rim;
 
-camera.position.set(0.7, 0.3, 0);
+camera.position.set(0.7, 0.6, -0.3);
 orbitControls.target.set(0, 0.3, 0);
+camera.position.set(0.7, 0.6, -0.3);
+orbitControls.target.set(0, 0.3, 0);
+
+// lock camera on x axis
+const offset = camera.position.clone().sub(orbitControls.target);
+const polarAngle = Math.acos(offset.y / offset.length());
+
+orbitControls.minPolarAngle = polarAngle;
+orbitControls.maxPolarAngle = polarAngle;
+
+orbitControls.minDistance = 0.65;
+orbitControls.maxDistance = 2;
+
+orbitControls.minPolarAngle = polarAngle;
+orbitControls.maxPolarAngle = polarAngle;
+
 renderer.shadowMap.enabled = true;
 renderer.setSize(window.innerWidth, window.innerHeight);
 
@@ -35,8 +101,8 @@ document.body.appendChild(renderer.domElement);
 // scene.add(ambientLight);
 
 // SPOTLIGHT
-const spotLight = new THREE.SpotLight(0xffffff, 82);
-spotLight.position.set(1, 6, 0);
+const spotLight = new THREE.SpotLight(0xffffff, 200);
+spotLight.position.set(1, 10, 0);
 spotLight.castShadow = true;
 scene.add(spotLight);
 // const spotLightHelper = new THREE.SpotLightHelper(spotLight);
@@ -130,6 +196,13 @@ const radioButtonify = (current) => {
 };
 radioButtonify("soft");
 
+function pasteData(type) {
+  spans.forEach((span, i) => {
+    // console.log(data[type]);
+    span.innerHTML = data[type][i];
+  });
+}
+
 function changeTyre(selection) {
   const showSoft = (elems.corsa_tyre.visible = false);
   elems.alt_tyre.visible = false;
@@ -147,12 +220,13 @@ function changeTyre(selection) {
       showSoft;
       elems.p_zero.material.color = new THREE.Color(0xd52b1e);
       elems.deco_checkered_1.material.color = new THREE.Color(0xd52b1e);
-
+      // pasteData("soft");
       break;
     case "medium":
       showSoft;
       elems.p_zero.material.color = new THREE.Color(0xfed100);
       elems.deco_checkered_1.material.color = new THREE.Color(0xfed100);
+      pasteData("medium");
 
       break;
 
@@ -160,6 +234,7 @@ function changeTyre(selection) {
       showSoft;
       elems.p_zero.material.color = new THREE.Color(0xffffff);
       elems.deco_checkered_1.material.color = new THREE.Color(0xffffff);
+      pasteData("hgard");
 
       break;
 
@@ -169,6 +244,7 @@ function changeTyre(selection) {
       elems.alt_tyre.visible = false;
       elems.p_zero.material.color = new THREE.Color(0x00b050);
       elems.deco_checkered_1.material.color = new THREE.Color(0x00b050);
+      pasteData("inter");
 
       break;
 
@@ -178,6 +254,7 @@ function changeTyre(selection) {
       elems.alt_tyre.visible = true;
       elems.p_zero.material.color = new THREE.Color(0x0066cc);
       elems.deco_checkered_1.material.color = new THREE.Color(0x0066cc);
+      pasteData("wet");
 
       break;
 
@@ -200,6 +277,7 @@ function changeTyre(selection) {
       elems.soft_tyre.visible = true;
       elems.p_zero.material.color = new THREE.Color(0xd52b1e);
       elems.deco_checkered_1.material.color = new THREE.Color(0xd52b1e);
+      pasteData("soft");
 
       break;
   }
@@ -217,9 +295,14 @@ const compounds = gui.addFolder("compounds");
 
 const speedObj = { kmh: 0 };
 
+document.querySelector(".rpm").innerHTML = `0 RPM`;
 const speedElem = speed.add(speedObj, "kmh", 0, 360, 1).onChange((value) => {
   rimSpeed = value / 3.6 / 0.3428655;
+
+  const RPM = Math.round(rimSpeed * (60 / (2 * Math.PI)));
+  document.querySelector(".rpm").innerHTML = `${RPM} RPM`;
 });
+
 speedElem.domElement.classList.add("suffix");
 
 const obj = {
