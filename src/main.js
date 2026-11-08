@@ -42,7 +42,6 @@ const spans = document.querySelectorAll(
 
 const manager = new THREE.LoadingManager();
 manager.onLoad = () => {
-  console.log("Finished!");
   speedElem.domElement.classList.remove("suffix");
   document
     .querySelectorAll(".lil-children")
